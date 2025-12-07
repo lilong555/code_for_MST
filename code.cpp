@@ -446,9 +446,6 @@ double mst_adaptive_parallel(const Graph &g)
         }
 
         // ===== Step 4: 并行边过滤 =====
-        // 论文里说要删掉：
-        //  (1) 已经变成“组件内部边”的边
-        //  (2) 权重显著大于本轮已选边上界的重边（启发式阈值）【不会删除必要 MST 边】:contentReference[oaicite:5]{index=5}
         double thresholdW = std::numeric_limits<double>::infinity();
         if (max_chosen_weight > 0.0)
         {
@@ -578,7 +575,7 @@ int main()
     std::cout << "OpenMP not enabled. Hybrid algorithm will run single-threaded.\n\n";
 #endif
 
-    // 论文中对每种图跑 10 次取平均:contentReference[oaicite:7]{index=7}
+    // 对每种图跑 10 次取平均:contentReference[oaicite:7]{index=7}
     const int REPEATS = 10;
 
     struct GraphSpec
@@ -590,7 +587,6 @@ int main()
         bool layered;
     };
 
-    // 和表 1 一致的图规模：S1/S2/D1/L1:contentReference[oaicite:8]{index=8}
     std::vector<GraphSpec> specs = {
         {"S1", 100000, 1000000LL, "Random sparse", false},
         {"S2", 100000, 5000000LL, "Random medium-density", false},
